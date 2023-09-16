@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Pressable, SafeAreaView, Text, Modal, View, StatusBar, ScrollView } from 'react-native';
-import { AuthContext } from '../../../AuthContext';
 import { homeStyle } from './homeScreenStyle';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import HistoriqueAllPlayers from '../../../components/historiqueAllPlayers/historiqueAllPlayers';
@@ -12,8 +11,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 interface HomeScreenProps {
     navigation: any;
 }
-
-
 
 export const HomeScreen = (props: HomeScreenProps) => {
 
@@ -79,7 +76,7 @@ export const HomeScreen = (props: HomeScreenProps) => {
                 animationType="none"
                 transparent={true}
             >
-                <AddTraitrise></AddTraitrise>
+                <AddTraitrise onClose={toggleModalAjout}/>
             </Modal>
 
             <Modal

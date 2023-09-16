@@ -2,13 +2,19 @@ import React from 'react';
 import { SafeAreaView, View, Text, StatusBar, ScrollView } from "react-native";
 import { playerStyle } from './playerScreenStyle';
 import Stats from '../../../components/stats/stats';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import HistoriquePlayer from '../../../components/historiquePlayer/historiquePlayer';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-interface LoginScreenProps {
+interface PlayerScreenProps {
     navigation: any;
 }
 
-export const PlayerScreen = (props: LoginScreenProps) => {
+export const PlayerScreen = (props: PlayerScreenProps) => {
+
+    const back = () => {
+        props.navigation.navigate('Home')
+    }
 
     return (
 
@@ -20,7 +26,9 @@ export const PlayerScreen = (props: LoginScreenProps) => {
             />
 
             <View style={playerStyle.header}>
-                <Text style={playerStyle.boutonRetour}>retour</Text>
+                <View style={playerStyle.iconContainer}>
+                    <Icon name="arrow-back" size={wp('8%')} color='rgba(135, 135, 135, 0.68)' onPress={() => back()}/>   
+                </View>
             </View>
 
             <View style={playerStyle.picAndName}>

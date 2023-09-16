@@ -14,48 +14,8 @@ export const LoginScreen = (props: LoginScreenProps) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    // const { updateToken } = useContext(AuthContext);
 
     // const login = () => {
-    //     const user = {
-    //         username: username,
-    //         password: password
-    //     };
-
-    //     console.log(user)
-
-    //     // Envoyer la requête à l'API Rails
-    //     // https://stackoverflow.com/questions/60639983/react-native-expo-fetch-throws-network-request-failed
-    //     fetch('http://10.0.2.2:3000/login', {
-    //         method: 'POST',
-    //         headers: {
-    //         'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(user)
-    //     })
-
-    //     .then(response => response.json())
-    //     // Traiter la réponse de l'API
-    //     .then(data => {
-    //         if (data.success) {
-    //             // Connexion réussie
-    //             console.log(data);
-                
-    //             const token = data.token; // Récupérer le jeton du serveur
-
-    //             // Mettre à jour le contexte d'authentification avec le nouveau jeton
-    //             updateToken(token);
-                
-    //             // On autorise la navigation
-    //             props.navigation.navigate('Home')
-    //         } else {
-    //             console.error(data.error);
-    //         }
-    //     })
-    //     .catch(error => {
-    //         // Gérer les erreurs de requête
-    //         console.error(error);
-    //     });
     // }
 
     const login = () => {

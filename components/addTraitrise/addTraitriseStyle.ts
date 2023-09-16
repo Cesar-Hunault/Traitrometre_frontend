@@ -18,10 +18,10 @@ export const AddTraitriseStyle = StyleSheet.create({
     },
     closeScroll: {
         borderWidth: 1,
-        width: '15%',
+        width: '20%',
         height: '2%',
-        backgroundColor: 'grey',
-        borderColor: 'grey',
+        backgroundColor: 'rgba(217, 217, 217, 1)',
+        borderColor: 'rgba(217, 217, 217, 1)',
         borderRadius: 30
     },
     title: {

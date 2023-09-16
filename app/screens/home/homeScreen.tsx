@@ -1,16 +1,37 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Pressable, SafeAreaView, Text, TextInput, View, StatusBar, ScrollView } from 'react-native';
+import { Pressable, SafeAreaView, Text, Modal, View, StatusBar, ScrollView } from 'react-native';
 import { AuthContext } from '../../../AuthContext';
 import { homeStyle } from './homeScreenStyle';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import HistoriqueAllPlayers from '../../../components/historiqueAllPlayers/historiqueAllPlayers';
 import AddTraitrise from '../../../components/addTraitrise/addTraitrise';
 import ProfilGroup from '../../../components/profilGroup/profilGroup';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-interface LoginScreenProps {
+
+interface HomeScreenProps {
     navigation: any;
 }
 
-export const HomeScreen = (props: LoginScreenProps) => {
+
+
+export const HomeScreen = (props: HomeScreenProps) => {
+
+    const [isVisibleModalGroup, setIsVisibleModalGroup] = useState(false);
+    const [isVisibleModalAjout, setIsVisibleModalAjout] = useState(false);
+
+
+    const parametres = () => {
+        props.navigation.navigate('Profil')
+    }
+
+    const toggleModalGroup = () => {
+        setIsVisibleModalGroup(!isVisibleModalGroup);
+    };
+
+    const toggleModalAjout = () => {
+        setIsVisibleModalAjout(!isVisibleModalAjout);
+    };
 
     return (
         
@@ -22,35 +43,52 @@ export const HomeScreen = (props: LoginScreenProps) => {
             />
 
             <View style={homeStyle.header}>
-                <Text>burger</Text>
+                <View style={homeStyle.iconContainer}>
+                    <Icon name="menu-outline" size={wp('8%')} color='#878787' onPress={toggleModalGroup}/>   
+                </View>
                 <Text style={homeStyle.groupName}>Nom du Groupe</Text>
-                <Text>Param</Text>
+                <Icon name="settings" size={wp('7.5%')} color="rgba(135, 135, 135, 0.68)" onPress={() => parametres()}/>
             </View>
 
             <View style={homeStyle.affichage}>
             </View>
 
             <ScrollView style={homeStyle.historique}>
-                <HistoriqueAllPlayers/>
-                <HistoriqueAllPlayers/>
-                <HistoriqueAllPlayers/>
-                <HistoriqueAllPlayers/>
-                <HistoriqueAllPlayers/>
-                <HistoriqueAllPlayers/>
-                <HistoriqueAllPlayers/>
-                <HistoriqueAllPlayers/>
+                <HistoriqueAllPlayers navigation={props.navigation}/>
+                <HistoriqueAllPlayers navigation={props.navigation}/>
+                <HistoriqueAllPlayers navigation={props.navigation}/>
+                <HistoriqueAllPlayers navigation={props.navigation}/>
+                <HistoriqueAllPlayers navigation={props.navigation}/>
+                <HistoriqueAllPlayers navigation={props.navigation}/>
+                <HistoriqueAllPlayers navigation={props.navigation}/>
+                <HistoriqueAllPlayers navigation={props.navigation}/>
+
 
 
             </ScrollView>
 
             <View style={homeStyle.boutonAjouter}>
-                <Pressable style={homeStyle.pressableAjouter}>
+                <Pressable style={homeStyle.pressableAjouter} onPress={toggleModalAjout}>
                     <Text style={homeStyle.textAjouter}> Nouvelle traitrise </Text>
                 </Pressable>
             </View>
 
-            {/* <AddTraitrise></AddTraitrise>
-            <ProfilGroup></ProfilGroup> */}
+
+            <Modal
+                visible={isVisibleModalAjout}
+                animationType="none"
+                transparent={true}
+            >
+                <AddTraitrise></AddTraitrise>
+            </Modal>
+
+            <Modal
+                visible={isVisibleModalGroup}
+                animationType="none"
+                transparent={true}
+            >
+                <ProfilGroup onClose={toggleModalGroup}/>
+            </Modal>
             
         </SafeAreaView>
     )

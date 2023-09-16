@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -13,13 +14,20 @@ export const homeStyle = StyleSheet.create({
     },
 
     header: {
-        // backgroundColor: 'grey',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         marginHorizontal: 25,
-        marginTop: 15,
+        marginTop: 20,
         marginBottom: 5
+    },
+    iconContainer: {
+        width: wp('10%'), 
+        height: wp('10%'),
+        borderRadius: wp('10%') / 2, // Pour rendre le conteneur rond, divisez la largeur par 2
+        backgroundColor: 'rgba(217, 217, 217, 0.40)',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     groupName: {
         fontSize: 20,

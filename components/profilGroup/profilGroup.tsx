@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import {Text, View, Pressable, ScrollView} from 'react-native';
 import { ProfilGroupStyle } from "./profilGroupStyle";
 import ClassementPlayer from "../classement/classementPlayer";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const ProfilGroup = () => {
+const ProfilGroup = ({ onClose }) => {
 
     const [username, setUsername] = useState('');
     const [traitrise, setTraitrise] = useState('');
@@ -15,7 +17,9 @@ const ProfilGroup = () => {
     return (
         <View style={ProfilGroupStyle.container}>
 
-            <Text style={ProfilGroupStyle.boutonRetour}>retour</Text>
+            <View style={ProfilGroupStyle.iconContainer}>
+                <Icon name="close-outline" size={wp('10%')} color='#878787' onPress={onClose}/>   
+            </View>
 
             <View style={ProfilGroupStyle.subContainer}>
                 <View style={ProfilGroupStyle.picAndName}>

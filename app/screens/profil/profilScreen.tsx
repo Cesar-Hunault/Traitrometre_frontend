@@ -1,13 +1,19 @@
 import React from 'react';
 import { SafeAreaView, View, Text, StatusBar } from "react-native";
 import { profilStyle } from './profilScreenStyle';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Stats from '../../../components/stats/stats';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-interface LoginScreenProps {
+interface ProfilScreenProps {
     navigation: any;
 }
 
-export const ProfilScreen = (props: LoginScreenProps) => {
+export const ProfilScreen = (props: ProfilScreenProps) => {
+
+    const back = () => {
+        props.navigation.navigate('Home')
+    }
 
     return (
 
@@ -19,7 +25,9 @@ export const ProfilScreen = (props: LoginScreenProps) => {
             />
 
             <View style={profilStyle.header}>
-                <Text style={profilStyle.boutonRetour}>retour</Text>
+                <View style={profilStyle.iconContainer}>
+                    <Icon name="arrow-back" size={wp('8%')} color='rgba(135, 135, 135, 0.68)' onPress={() => back()}/>   
+                </View>
                 <Text style={profilStyle.profil}>Profil</Text>
             </View>
 

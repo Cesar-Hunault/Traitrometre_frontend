@@ -1,14 +1,18 @@
 import React from "react";
-import {Text, TextInput, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import { HistoriqueAllPlayersStyle } from "./historiqueAllPayersStyle"; 
 
 
-const HistoriqueAllPlayers = () => {
+const HistoriqueAllPlayers = ({navigation}) => {
+
+    const go_stats = () => {
+        navigation.navigate('Player')
+    }
 
     return (
         <View style={HistoriqueAllPlayersStyle.container}>
-            <View style={HistoriqueAllPlayersStyle.img}>
-            </View>
+            <TouchableOpacity style={HistoriqueAllPlayersStyle.img} onPress={() => go_stats()}>
+            </TouchableOpacity>
             <View style={HistoriqueAllPlayersStyle.infos}>
                 <View style={HistoriqueAllPlayersStyle.nom}>
                     <Text>Nom</Text>

@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -8,16 +9,25 @@ export const ProfilGroupStyle = StyleSheet.create({
     container: {
         position: 'absolute',
         top: 0,
-        width: '90%',
+        width: '85%',
         height: '100%',
         flexDirection: 'row-reverse',
         alignItems: 'flex-start',
         justifyContent: 'space-between'
     },
 
+    iconContainer: {
+        width: wp('10%'), 
+        height: wp('10%'),
+        borderRadius: wp('10%') / 2, // Pour rendre le conteneur rond, divisez la largeur par 2
+        backgroundColor: '#D9D9D9',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+    },
     subContainer: {
         backgroundColor: 'white',
-        width: '80%',
+        width: '85%',
         height: '100%',
         borderTopRightRadius: 30,
         borderBottomRightRadius: 30,

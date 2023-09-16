@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -14,30 +15,26 @@ export const playerStyle = StyleSheet.create({
     header: {
         position: 'relative',
         flexDirection: 'row',
-        // justifyContent: 'center',
         alignItems: 'center',
         marginHorizontal: 25,
         marginTop: 25,
         marginBottom: 5,
     },
-    boutonRetour: {
-        // position: 'absolute',
-        // top: 5,
-        // left: 0,
-        // height: '100%',
+    iconContainer: {
+        width: wp('10%'), 
+        height: wp('10%'),
+        borderRadius: wp('10%') / 2, // Pour rendre le conteneur rond, divisez la largeur par 2
+        backgroundColor: 'rgba(217, 217, 217, 0.40)',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-
-    // container: {
-    //     alignItems: 'center',
-    //     justifyContent: 'center',
-    // },
 
 
     picAndName: {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 35,
+        marginTop: 20,
     },
     profilPic: {
         backgroundColor: 'rgba(47, 154, 254, 0.47)',

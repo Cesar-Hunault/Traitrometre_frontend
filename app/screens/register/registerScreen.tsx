@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Text, View, SafeAreaView, ScrollView, StatusBar, Pressable } from "react-native";
 import { registerScreenStyle } from "./registerScreenStyle";
 import CustomTextInput from "../../../components/customTextInput/customTextInput";
+import backendBaseUrl from "../../../ApiConfig";
 
 interface RegisterScreenProps {
     navigation: any;
@@ -11,45 +12,59 @@ export const RegisterScreen = (props: RegisterScreenProps) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
-    // const register = () => {
+    async function checkPassword (){
+        if (password === confirmPassword){
+            return true;
+        } else {
+            return false;
+        }
+    };
 
-    //     const user = {
-    //         username: username,
-    //         password: password
-    //     };
+    async function register () {
 
-    //     console.log(user)
+        const goodPassord = await checkPassword(); 
 
-    //     fetch('http://10.0.2.2:3000/users_signup', {
-    //         method: 'POST',
-    //         headers: {
-    //         'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(user)
-    //   })
+        if (goodPassord) {
+            
+            const user = {
+                pseudo: username,
+                password: password
+            };
 
-    //   .then(response => response.json())
-    //   // Traiter la réponse de l'API
-    //   .then(data => {
-    //     if (data.success) {
-    //         // Créattion réussie, on autorise la navigation sur le screen de login
-    //         console.log(data);
-    //         props.navigation.navigate('Login')
-    //     } else {
-    //         console.error(data.error);
-    //     }
-    //   })
-    //   .catch(error => {
-    //     // Gérer les erreurs de requête
-    //     console.error(error);
-    //   });
+            console.log(user)
+            console.log("good password")
 
-    // }
 
-    const register = () => {
-        props.navigation.navigate('Home')
-    }
+            fetch(`${backendBaseUrl}/register`, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(user)
+            })
+
+            .then(response => response.json())
+            // Traiter la réponse de l'API
+            .then(data => {
+                if (data.success) {
+                    // Créattion réussie, on autorise la navigation sur le screen de login
+                    props.navigation.navigate('Login', {user: user})
+                } else {
+                    console.error(data.errors);
+                }
+            })
+            .catch(error => {
+                // Gérer les erreurs de requête
+                console.error(error);
+            });
+        } else {
+            console.log("bad password")
+
+        }
+
+    };
     
 
     return (
@@ -93,6 +108,8 @@ export const RegisterScreen = (props: RegisterScreenProps) => {
                         placeholderTextColor={'rgba(0, 0, 0, 0.38)'}
                         secureTextEntry={true}
                         autoCapitalize={'none'}
+                        onChangeText={text => setConfirmPassword(text)}
+                        value={confirmPassword}
                     />
 
                     <Pressable style={[registerScreenStyle.signButton]}

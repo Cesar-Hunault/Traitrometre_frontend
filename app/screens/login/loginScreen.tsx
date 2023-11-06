@@ -1,8 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import { Pressable, SafeAreaView, Text, TextInput, View, StatusBar, ScrollView } from 'react-native';
 import { loginStyle } from './loginScreenStyle';
 import CustomTextInput from '../../../components/customTextInput/customTextInput';
 import { AuthContext } from '../../../AuthContext';
+import { useRoute } from '@react-navigation/native';
+import backendBaseUrl from '../../../ApiConfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 interface LoginScreenProps {
@@ -11,18 +15,77 @@ interface LoginScreenProps {
 
 export const LoginScreen = (props: LoginScreenProps) => {
 
+    const route = useRoute();
+    const userParams = (route.params as { user: { pseudo: string, password: string } })?.user || { pseudo: '', password: '' };
+    const authContext = useContext(AuthContext);
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [pseudo, setPseudo] = useState(userParams.pseudo);
+    const [password, setPassword] = useState(userParams.password);
 
-    // const login = () => {
-    // }
+    useEffect(() => {
+        setPseudo(userParams.pseudo);
+        setPassword(userParams.password);
+    }, [userParams.pseudo, userParams.password]);
 
-    const login = () => {
-        props.navigation.navigate('Home')
+    // Sauvegarde du token localement
+    const saveTokenToStorage = async (token, expiresIn) => {
+        try {
+            const expirationTime = Date.now() + expiresIn;
+            await AsyncStorage.setItem('token', token);
+            await AsyncStorage.setItem('tokenExpirationTime', expirationTime.toString());
+        } catch (error) {
+            console.error('Error while saving token to AsyncStorage:', error);
+        }
+    };
+
+    function login() {
+
+        const user = {
+            pseudo: pseudo,
+            password: password
+        };
+
+        fetch(`${backendBaseUrl}/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+      
+        .then(response => response.json())
+        // Traiter la réponse de l'API
+        .then(async data => {
+            if (data.success) {
+                // Connexion réussie
+                console.log("data ", data);
+        
+                const token = data.token; // Récupérer le jeton du serveur
+                const userId = data.user.id; // Récupérer l'ID de l'utilisateur du serveur
+                const expiresIn = 30 * 24 * 60 * 60 * 1000; // Token valide pour une durée de 30 jours, temps d'expiration en millisecondes pour etre cohérent avec le temps en millisecondes de Date danns la fonction SaveTokenToStorage
+        
+                // Mettre à jour le contexte d'authentification avec le nouveau jeton et l'id de l'utilisateur
+                await authContext.updateToken(token);
+                await authContext.updateUserId(userId);
+        
+                // Sauvegarde du token et son temps d'expiration localement
+                await saveTokenToStorage(token, expiresIn);
+        
+                // On autorise la navigation
+                props.navigation.navigate('Home')
+    
+            } else {
+                console.error(data.error);
+            }
+        })
+        .catch(error => {
+            // Gérer les erreurs de requête
+            console.error(error);
+        });
+        
     }
 
-    const register = () => {
+    function register() { 
         props.navigation.navigate('Register')
     }
 
@@ -48,8 +111,8 @@ export const LoginScreen = (props: LoginScreenProps) => {
                         placeholder={'Pseudo'}
                         placeholderTextColor={'rgba(0, 0, 0, 0.38)'}
                         keyboardType={'default'}
-                        onChangeText={text => setUsername(text)}
-                        value={username}
+                        onChangeText={text => setPseudo(text)}
+                        value={pseudo}
                     />
                     <CustomTextInput 
                         placeholder={'Mot de Passe'}

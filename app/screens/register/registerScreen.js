@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { Text, View, SafeAreaView, ScrollView, StatusBar, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { registerScreenStyle } from "./registerScreenStyle";
 import CustomTextInput from "../../../components/customTextInput/customTextInput";
 import { createUser } from "../../../services/userService/userService";
 
-interface RegisterScreenProps {
-  navigation: any;
-}
-
-export const RegisterScreen = (props: RegisterScreenProps) => {
+export const RegisterScreen = () => {
+  const navigation = useNavigation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -36,7 +34,7 @@ export const RegisterScreen = (props: RegisterScreenProps) => {
       try {
         const response = await createUser(user);
 
-        props.navigation.navigate("Login", { user: user });
+        navigation.navigate("Login", { user: user });
       } catch (error) {
         console.error("Failed to register: ", error);
       }

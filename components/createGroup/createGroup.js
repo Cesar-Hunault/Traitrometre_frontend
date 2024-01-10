@@ -41,7 +41,7 @@ const CreateGroup = ({ onClose }) => {
     };
     console.log("groupe :", group);
     try {
-      const response = (await createGroup(authContext.token, group)) as any;
+      const response = await createGroup(authContext.token, group);
 
       try {
         const memberships = {

@@ -1,37 +1,22 @@
-import React, { createContext, useState, ReactNode } from "react";
+import React, { createContext, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import "core-js/stable/atob";
 import { getUserInfo } from "./services/userService/userService";
 
-// Création d'un nouveau contexte d'authentification avec la fonction createContext(). Ce contexte sera utilisé pour partager des informations d'authentification avec d'autres composants de l'application.
-interface AuthContextType {
-  token: string | null;
-  updateToken: (newToken: string | null) => void;
-  getToken: () => void;
-  userId: string | null;
-  updateUserId: (newUserId: string | null) => void;
-  getUserId: () => void;
-  saveTokenToStorage: (token: string, expiresIn: number) => void;
-  checkToken: () => Promise<boolean>;
-}
+// Création d'un nouveau contexte d'authentification avec la fonction createContext().
+export const AuthContext = createContext();
 
 const TOKEN = "TRAITROMETRE_AUTH_TOKEN";
 const TOKEN_EXPIRATION_TIME = "TRAITROMETRE_AUTH_TOKEN_EXPIRATION_TIME";
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
 // Définit le fournisseur d'authentification qui encapsule les composants enfants avec le contexte d'authentification.
-interface AuthProviderProps {
-  children: ReactNode;
-}
+export const AuthProvider = ({ children }) => {
+  const [token, setToken] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [user, setUser] = useState(null);
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [token, setToken] = useState<string | null>(null);
-  const [userId, setUserId] = useState<string | null>(null);
-  const [user, setUser] = useState<object | null>(null);
-
-  const updateToken = async (newToken: string | null) => {
+  const updateToken = async (newToken) => {
     setToken(newToken);
   };
 
@@ -39,7 +24,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return token;
   };
 
-  const updateUserId = async (newUserId: string | null) => {
+  const updateUserId = async (newUserId) => {
     setUserId(newUserId);
   };
 
@@ -47,11 +32,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return userId;
   };
 
-  const updateUser = async (newUser: object | null) => {
+  const updateUser = async (newUser) => {
     setUser(newUser);
   };
 
-  async function saveTokenToStorage(token: string, expiresIn: number) {
+  async function saveTokenToStorage(token, expiresIn) {
     try {
       const expirationTime = Date.now() + expiresIn;
       await AsyncStorage.setItem(TOKEN, token);

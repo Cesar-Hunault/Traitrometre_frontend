@@ -4,11 +4,6 @@ import { acceuilStyle } from "./acceuilScreenStyle";
 import CreateGroup from "../../../components/createGroup/createGroup";
 import { getUserGroups, getUserGroupsDemands } from "../../../services/groupService/groupService";
 import { AuthContext } from "../../../AuthContext";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
-
-interface AcceuilScreenProps {
-  navigation: any;
-}
 
 const GroupComponent = ({ groupName }) => {
   return (
@@ -34,12 +29,12 @@ const DemandGroupComponent = ({ groupName }) => {
   );
 };
 
-export const AcceuilScreen = (props: AcceuilScreenProps) => {
+export const AcceuilScreen = () => {
   const authContext = useContext(AuthContext);
   const [search, setSearch] = useState(null);
   const [isVisibleModalCreate, setIsVisibleModalCreate] = useState(false);
-  const [userGroups, setUserGroups] = useState<any[]>([]);
-  const [userGroupsDemands, setUserGroupsDemands] = useState<any[]>([]);
+  const [userGroups, setUserGroups] = useState([]);
+  const [userGroupsDemands, setUserGroupsDemands] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

@@ -1,18 +1,16 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Pressable, SafeAreaView, Text, View, StatusBar, ScrollView, TouchableOpacity } from "react-native";
 import { loginStyle } from "./loginScreenStyle";
+import { useNavigation } from "@react-navigation/native";
 import CustomTextInput from "../../../components/customTextInput/customTextInput";
 import { AuthContext } from "../../../AuthContext";
 import { useRoute } from "@react-navigation/native";
 import { login as loginUser } from "../../../services/userService/userService";
 
-interface LoginScreenProps {
-  navigation: any;
-}
-
-export const LoginScreen = (props: LoginScreenProps) => {
+export const LoginScreen = () => {
+  const navigation = useNavigation();
   const route = useRoute();
-  const userParams = (route.params as { user: { pseudo: string; password: string } })?.user || { pseudo: "", password: "" };
+  const userParams = route.params?.user || { pseudo: "", password: "" };
   const authContext = useContext(AuthContext);
 
   const [pseudo, setPseudo] = useState(userParams.pseudo);
@@ -22,7 +20,7 @@ export const LoginScreen = (props: LoginScreenProps) => {
     const check = async () => {
       const result = await authContext.checkToken();
       if (result) {
-        props.navigation.navigate("Acceuil");
+        navigation.navigate("Acceuil");
       }
     };
 
@@ -48,7 +46,7 @@ export const LoginScreen = (props: LoginScreenProps) => {
       await authContext.saveTokenToStorage(token, expiresIn);
 
       // On autorise la navigation
-      props.navigation.navigate("Acceuil");
+      navigation.navigate("Acceuil");
     } catch (error) {
       // Gérer les erreurs de requête
       console.error("Failed to login", error);
@@ -56,7 +54,7 @@ export const LoginScreen = (props: LoginScreenProps) => {
   }
 
   function register() {
-    props.navigation.navigate("Register");
+    navigation.navigate("Register");
   }
 
   return (

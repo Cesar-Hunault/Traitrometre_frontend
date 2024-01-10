@@ -85,7 +85,6 @@ export const homeStyle = StyleSheet.create({
     textAjouter: {
         fontWeight: '500',
         color: 'white'
-
     }
 
 })
